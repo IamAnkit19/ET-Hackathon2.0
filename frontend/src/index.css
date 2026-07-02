@@ -1,0 +1,142 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  --color-bg-primary: #0A0F1E;
+  --color-bg-surface: #111827;
+  --color-bg-surface-hover: #1F2937;
+  --color-accent-blue: #3B82F6;
+  --color-accent-blue-hover: #2563EB;
+  --color-danger: #EF4444;
+  --color-warning: #F59E0B;
+  --color-success: #10B981;
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #9CA3AF;
+  
+  --animate-pulse-slow: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-scanning: scanning 2s linear infinite;
+  --animate-pulse-red: pulse-red 2s infinite;
+}
+
+@keyframes scanning {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+@keyframes pulse-red {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(239, 68, 68, 0);
+  }
+}
+
+/* Custom Base resets */
+html, body, #root {
+  background: radial-gradient(circle at 50% 0%, #0d1730 0%, #070c1b 60%, #040610 100%);
+  color: #F9FAFB;
+  font-family: 'Inter', system-ui, sans-serif;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Scrollbar customizations */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #060a16;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(59, 130, 246, 0.15);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(59, 130, 246, 0.35);
+}
+
+/* Leaflet dark theme fixes */
+.leaflet-container {
+  background: #050914 !important;
+  width: 100%;
+  height: 100%;
+}
+.leaflet-popup-content-wrapper, .leaflet-popup-tip {
+  background-color: #0b1120 !important;
+  color: #F9FAFB !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Glassmorphism custom classes */
+.card-glass {
+  background: rgba(13, 21, 39, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: border-color 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.2s ease;
+}
+.card-glass:hover {
+  border-color: rgba(59, 130, 246, 0.25);
+  box-shadow: 0 12px 40px 0 rgba(59, 130, 246, 0.06), 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Stepper glow indicator */
+.glow-accent {
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.25);
+}
+.glow-danger {
+  box-shadow: 0 0 15px rgba(239, 68, 68, 0.3);
+}
+
+/* Premium gradient texts */
+.text-gradient-blue {
+  background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.text-gradient-gold {
+  background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Print Optimization Styles */
+@media print {
+  body, html, #root {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  aside, header, button, canvas, .no-print {
+    display: none !important;
+  }
+  .flex-1, main {
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+    padding: 0 !important;
+  }
+  .card-glass {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #cccccc !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+  }
+  h1, h2, h3, h4, span, p, td, th {
+    color: #000000 !important;
+  }
+  tr {
+    border-bottom: 1px solid #dddddd !important;
+  }
+}
