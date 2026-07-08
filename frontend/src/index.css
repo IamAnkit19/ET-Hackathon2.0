@@ -140,3 +140,42 @@ html, body, #root {
     border-bottom: 1px solid #dddddd !important;
   }
 }
+
+/* Toast slide-up notification animation */
+@keyframes toast-slide-up {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 20px);
+  }
+  15% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  85% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+}
+
+.animate-toast-slide-up {
+  animation: toast-slide-up 3.5s ease-in-out forwards;
+}
+
+/* Copilot typing dots animation */
+@keyframes copilot-typing {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.2); }
+}
+
+.copilot-typing-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: #3B82F6;
+  animation: copilot-typing 0.8s ease-in-out infinite;
+}

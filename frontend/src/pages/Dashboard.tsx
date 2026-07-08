@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, AlertOctagon, TrendingUp, AlertTriangle, Users, Landmark, Radio, CheckCircle2, FileText, X } from 'lucide-react';
+import { Shield, AlertOctagon, TrendingUp, AlertTriangle, Users, Landmark, Radio, CheckCircle2, FileText, X, Zap, Clock } from 'lucide-react';
 import { getDashboardSummary, getGraphRings } from '../lib/api';
 import { useAlertWebSocket } from '../lib/websocket';
 import MetricCard from '../components/shared/MetricCard';
@@ -21,6 +21,43 @@ export const Dashboard: React.FC = () => {
   const [scamDistribution, setScamDistribution] = useState<any[]>([]);
   const [workflow, setWorkflow] = useState(getWorkflowState());
   const [evidenceLockerOpen, setEvidenceLockerOpen] = useState<boolean>(false);
+  const [uptime, setUptime] = useState<number>(0);
+  const [demoRunning, setDemoRunning] = useState<boolean>(false);
+
+  // System uptime clock
+  useEffect(() => {
+    const timer = setInterval(() => setUptime(prev => prev + 1), 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const formatUptime = (seconds: number) => {
+    const h = Math.floor(seconds / 3600);
+    const m = Math.floor((seconds % 3600) / 60);
+    const s = seconds % 60;
+    return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  };
+
+  // Quick Demo auto-runner
+  const handleQuickDemo = () => {
+    setDemoRunning(true);
+    const caseId = `VYUH-2026-DEMO-${Math.floor(1000 + Math.random() * 9000)}`;
+    saveWorkflowState({
+      activeStep: 'citizen_report',
+      data: {
+        caseId,
+        complaintText: 'Maine ek call receive ki CBI officer se, unhone bola mera Aadhaar se linked package mein drugs hain. Video call pe arrest warrant dikhaya aur bola 2 lakh transfer karo warna jail.',
+        scamType: 'Digital Arrest',
+        urgencyLevel: 'CRITICAL',
+        phone: '+919112239392',
+        state: 'Delhi',
+        district: 'New Delhi',
+        accountId: '9876543201',
+        ringId: 7
+      }
+    });
+    navigate('/shield');
+    setDemoRunning(false);
+  };
 
   useEffect(() => {
     const handleWorkflowChange = () => {
@@ -83,7 +120,7 @@ export const Dashboard: React.FC = () => {
 
     fetchData();
     // Poll stats every 10 seconds
-    const interval = setInterval(fetchData, 10000);
+    const interval = setInterval(fetchData, 30000);
     return () => clearInterval(interval);
   }, []);
 
@@ -135,7 +172,7 @@ export const Dashboard: React.FC = () => {
             </button>
             <button
               onClick={() => {
-                navigate(`/fraud-graph?ring=7`);
+                window.print();
               }}
               className="px-4 py-2.5 bg-accent-blue text-text-primary hover:bg-accent-blue-hover text-xs font-bold font-mono rounded-lg transition-colors flex items-center gap-1.5 glow-accent cursor-pointer"
             >
@@ -267,6 +304,20 @@ export const Dashboard: React.FC = () => {
           <p className="text-sm text-text-secondary">
             A composite National Fraud Threat Index scoring transaction anomalies, fake currency ratios, active impersonations, and localized incident bursts.
           </p>
+          <div className="flex flex-wrap items-center gap-3 pt-2">
+            <button
+              onClick={handleQuickDemo}
+              disabled={demoRunning || !!workflow.activeStep}
+              className="px-4 py-2 bg-accent-blue text-text-primary hover:bg-accent-blue-hover text-xs font-bold font-mono rounded-lg transition-colors flex items-center gap-1.5 disabled:opacity-50 cursor-pointer glow-accent"
+            >
+              <Zap className="w-4 h-4" />
+              {demoRunning ? 'Launching...' : 'Quick Demo'}
+            </button>
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-bg-primary border border-border-custom rounded-lg text-[10px] font-mono text-text-secondary">
+              <Clock className="w-3.5 h-3.5 text-success" />
+              <span>Uptime: <span className="text-text-primary font-bold">{formatUptime(uptime)}</span></span>
+            </div>
+          </div>
         </div>
 
         {/* Circular Gauge */}

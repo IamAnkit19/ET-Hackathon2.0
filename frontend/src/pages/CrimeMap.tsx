@@ -395,11 +395,11 @@ export const CrimeMap: React.FC = () => {
               <div className="grid grid-cols-2 gap-2 text-center text-xs font-mono">
                 <div className="bg-bg-primary p-2 rounded border border-border-custom">
                   <span className="text-[8px] text-text-secondary uppercase">Hotspots</span>
-                  <div className="font-bold text-warning text-sm mt-0.5">3 Areas</div>
+                  <div className="font-bold text-warning text-sm mt-0.5">{hotspots.length} Areas</div>
                 </div>
                 <div className="bg-bg-primary p-2 rounded border border-border-custom">
                   <span className="text-[8px] text-text-secondary uppercase">RBI Seizures</span>
-                  <div className="font-bold text-success text-sm mt-0.5">40 Cases</div>
+                  <div className="font-bold text-success text-sm mt-0.5">{seizures.length} Cases</div>
                 </div>
               </div>
 

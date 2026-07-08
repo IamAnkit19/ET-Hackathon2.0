@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Radio, FileText, AlertTriangle, ShieldCheck, Play, ArrowRight, BookOpen, BarChart3, X } from 'lucide-react';
+import { Radio, FileText, AlertTriangle, ShieldCheck, Play, ArrowRight, BookOpen, BarChart3, X, Zap, CheckCircle } from 'lucide-react';
 import { analyzeComplaint, analyzeCall, getScamPatterns, getScamLeaderboard, reportScam } from '../lib/api';
 import RiskBadge from '../components/shared/RiskBadge';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Cell, Tooltip } from 'recharts';
@@ -16,6 +16,14 @@ export const ScamDetector: React.FC = () => {
   const [analyzingText, setAnalyzingText] = useState<boolean>(false);
   const [textResult, setTextResult] = useState<any>(null);
   const [mhaModalOpen, setMhaModalOpen] = useState<boolean>(false);
+  const [toast, setToast] = useState<{ show: boolean; message: string }>({ show: false, message: '' });
+
+  const showToast = (message: string) => {
+    setToast({ show: true, message });
+    setTimeout(() => setToast({ show: false, message: '' }), 3500);
+  };
+
+  const DEMO_COMPLAINT = 'Maine ek call receive ki CBI officer se, unhone bola mera Aadhaar se linked package mein drugs hain. Video call pe arrest warrant dikhaya aur bola 2 lakh safe keeping ke liye transfer karo warna jail bhej denge.';
 
   useEffect(() => {
     const state = getWorkflowState();
@@ -259,13 +267,23 @@ VYUH Intelligence Auto-Filing Registry. Document Ref ID: VYUH-SCAM-${Date.now().
               </div>
             </div>
 
-            <button
-              onClick={handleAnalyzeText}
-              disabled={analyzingText || !complaintText}
-              className="w-full py-2.5 bg-accent-blue text-text-primary hover:bg-accent-blue-hover text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
-            >
-              {analyzingText ? 'Analyzing scripts...' : 'Analyze Pattern'}
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={handleAnalyzeText}
+                disabled={analyzingText || !complaintText}
+                className="flex-1 py-2.5 bg-accent-blue text-text-primary hover:bg-accent-blue-hover text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 disabled:opacity-50 cursor-pointer"
+              >
+                {analyzingText ? 'Analyzing scripts...' : 'Analyze Pattern'}
+              </button>
+              <button
+                onClick={() => setComplaintText(DEMO_COMPLAINT)}
+                disabled={!!complaintText}
+                className="px-3 py-2.5 bg-bg-primary border border-border-custom hover:border-accent-blue text-text-secondary hover:text-accent-blue text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5 disabled:opacity-30 cursor-pointer"
+              >
+                <Zap className="w-3.5 h-3.5" />
+                Prefill Demo
+              </button>
+            </div>
 
             {/* Classification result display */}
             {textResult && (
@@ -350,7 +368,7 @@ VYUH Intelligence Auto-Filing Registry. Document Ref ID: VYUH-SCAM-${Date.now().
                         state: 'Delhi',
                         district: 'New Delhi'
                       });
-                      alert('Alert forwarded to NCRB cyber portals.');
+                      showToast('Alert forwarded to NCRB cyber portals via 1930.');
                     }}
                     className="px-3 py-2 bg-danger/10 hover:bg-danger/25 text-danger border border-danger/30 rounded text-xs font-bold font-mono transition flex items-center justify-center gap-1"
                   >
@@ -678,6 +696,16 @@ VYUH Intelligence Auto-Filing Registry. Document Ref ID: VYUH-SCAM-${Date.now().
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      )}
+
+      {/* Toast Notification */}
+      {toast.show && (
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 animate-toast-slide-up">
+          <div className="flex items-center gap-2 px-5 py-3 bg-success/90 text-text-primary rounded-xl shadow-2xl backdrop-blur-md border border-success/40 font-mono text-xs font-bold">
+            <CheckCircle className="w-4 h-4 shrink-0" />
+            {toast.message}
           </div>
         </div>
       )}

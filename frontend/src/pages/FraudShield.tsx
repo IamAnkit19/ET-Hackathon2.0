@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ShieldCheck, Send, AlertTriangle, Phone, Globe, Upload, ShieldAlert, Sparkles, AlertOctagon } from 'lucide-react';
+import { ShieldCheck, Send, Phone, ShieldAlert, Sparkles, AlertOctagon } from 'lucide-react';
 import { sendChatbotMessage, analyzeSuspiciousContent, getHelplines } from '../lib/api';
 import { motion } from 'framer-motion';
 import { getWorkflowState, saveWorkflowState } from '../lib/workflow';

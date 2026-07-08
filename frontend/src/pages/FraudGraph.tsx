@@ -161,14 +161,6 @@ export const FraudGraph: React.FC = () => {
   // Replay network progression state
   const [replayDay, setReplayDay] = useState<number>(10);
 
-  // Filtered edges based on timeline slider progression
-  const filteredEdges = React.useMemo(() => {
-    return edges.filter((e, idx) => {
-      const edgeStep = (idx % 10) + 1;
-      return edgeStep <= replayDay;
-    });
-  }, [edges, replayDay]);
-
   // Filtered nodes logic (Memoized to prevent array ref changes from re-triggering D3 simulations)
   const filteredNodes = React.useMemo(() => {
     return nodes.filter((n, idx) => {
@@ -186,6 +178,19 @@ export const FraudGraph: React.FC = () => {
       return nodeStep <= replayDay;
     });
   }, [nodes, statusFilter, selectedRingId, searchQuery, replayDay]);
+
+  // Filtered edges based on timeline slider progression and active nodes
+  const filteredEdges = React.useMemo(() => {
+    const nodeIds = new Set(filteredNodes.map(n => n.id));
+    return edges.filter((e, idx) => {
+      const edgeStep = (idx % 10) + 1;
+      if (edgeStep > replayDay) return false;
+
+      const sourceId = typeof e.source === 'object' ? (e.source as any).id : e.source;
+      const targetId = typeof e.target === 'object' ? (e.target as any).id : e.target;
+      return nodeIds.has(sourceId) && nodeIds.has(targetId);
+    });
+  }, [edges, filteredNodes, replayDay]);
 
   // Calculate top statistics
   const totalCount = nodes.length;
@@ -519,6 +524,8 @@ export const FraudGraph: React.FC = () => {
                 </button>
                 <a
                   href={getExportEvidenceUrl(`VYUH-2026-${selectedNodeId?.slice(-4) || '000'}`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="px-4 py-2.5 bg-bg-primary text-text-secondary hover:text-text-primary border border-border-custom hover:border-text-secondary text-xs font-bold rounded-lg transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <Download className="w-4 h-4" />

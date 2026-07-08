@@ -45,10 +45,12 @@ export const FraudNetworkGraph: React.FC<FraudNetworkGraphProps> = ({
   const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
-    if (!svgRef.current || !containerRef.current || nodes.length === 0) return;
+    if (!svgRef.current || !containerRef.current) return;
 
     // Clear previous drawing
     d3.select(svgRef.current).selectAll('*').remove();
+
+    if (nodes.length === 0) return;
 
     const width = containerRef.current.clientWidth || 800;
     const height = containerRef.current.clientHeight || 550;
