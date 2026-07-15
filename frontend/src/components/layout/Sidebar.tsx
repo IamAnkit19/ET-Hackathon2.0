@@ -63,7 +63,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
               VYUH <span className="text-[10px] text-text-secondary ml-1 bg-accent-blue/10 px-1 py-0.5 rounded border border-accent-blue/20">V2.0</span>
             </h1>
             <span className="text-[9px] font-mono text-text-secondary uppercase tracking-widest mt-1">
-              विघ्न — AI DISRUPTION
+              VYUH — AI DISRUPTION
             </span>
           </div>
           <button
