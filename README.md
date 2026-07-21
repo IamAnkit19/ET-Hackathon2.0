@@ -1,6 +1,6 @@
-# VYUH (विघ्न) — Digital Public Safety Intelligence Platform
+# VYUH — Digital Public Safety Intelligence Platform
 
-VYUH (विघ्न — meaning "disruption/obstacle" — we disrupt fraud before it disrupts citizens) is an AI-powered Digital Public Safety Intelligence platform built for the **ET AI Hackathon 2.0, Problem Statement 6**: *"AI for Digital Public Safety: Defeating Counterfeiting, Fraud & Digital Arrest Scams."*
+VYUH (meaning "disruption/obstacle" — we disrupt fraud before it disrupts citizens) is an AI-powered Digital Public Safety Intelligence platform built for the **ET AI Hackathon 2.0, Problem Statement 6**: *"AI for Digital Public Safety: Defeating Counterfeiting, Fraud & Digital Arrest Scams."*
 
 ---
 
